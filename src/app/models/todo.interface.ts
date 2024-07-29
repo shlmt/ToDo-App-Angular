@@ -1,7 +1,9 @@
-export interface todo{
+export interface ITodo{
+    id:number,
     title:string,
     description:string,
-    isComleted:boolean,
-    isAchrives:boolean,
-    endDate: Date | number | string
+    isCompleted:boolean,
+    isArchived:boolean,
+    endDate: Date | number | string,
+    selected: boolean
 }
