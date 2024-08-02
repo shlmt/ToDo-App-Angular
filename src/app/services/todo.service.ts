@@ -7,10 +7,12 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class TodoService {
 
-  private todos:ITodo[]=[]
+  private historyTodos = localStorage.getItem('todos')
+  private todos:ITodo[]= this.historyTodos ? JSON.parse(this.historyTodos) : []
   
   private _todoSubject:BehaviorSubject<ITodo[]> = new BehaviorSubject(this.todos)
-  private _singleTodoSubject:BehaviorSubject<ITodo> = new BehaviorSubject(this.todos.length ? this.todos[0] : null)
+  private selectFirst= ():ITodo=>{this.todos[0].selected = true;return this.todos[0]}
+  private _selectedTodoSubject:BehaviorSubject<ITodo> = new BehaviorSubject(this.todos.length ? this.selectFirst() : null)
 
   constructor() { }
 
@@ -19,17 +21,18 @@ export class TodoService {
   }
 
   public getSelectedTodo():Observable<ITodo>{
-    return this._singleTodoSubject.asObservable()
+    return this._selectedTodoSubject.asObservable()
   }
 
   public setSelectedTodo(todo:ITodo){
-    this._singleTodoSubject.next(todo)
+    this._selectedTodoSubject.next(todo)
   }
 
   public addNewTodo(newTodo:ITodo){
     const existingTotos:ITodo[] = this._todoSubject.value
     existingTotos.push(newTodo)
     this._todoSubject.next(existingTotos)
+    localStorage.setItem('todos',JSON.stringify(existingTotos))
   }
 
 }
