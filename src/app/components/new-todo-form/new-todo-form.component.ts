@@ -29,10 +29,11 @@ export class NewTodoFormComponent implements OnInit {
         endDate:date,
         isArchived:false,
         isCompleted:false,
-        selected:false
+        selected:true
       }
       this.todoService.addNewTodo(newTodo)
       this.dialog.closeAll()
+      this.todoService.setSelectedTodo(newTodo)
     }
   }
 }

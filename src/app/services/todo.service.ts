@@ -35,4 +35,12 @@ export class TodoService {
     localStorage.setItem('todos',JSON.stringify(existingTotos))
   }
 
+  public onEditTodo(attr:string, todoId:string){
+    if(attr!='isCompleted' && attr!='isArchived') return;
+    const existingTotos:ITodo[] = this._todoSubject.value
+    const index = existingTotos.findIndex((t)=>t.id===todoId)
+    existingTotos[index][attr] = true
+    localStorage.setItem('todos',JSON.stringify(existingTotos))
+  }
+
 }
