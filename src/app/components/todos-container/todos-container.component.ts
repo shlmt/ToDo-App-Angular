@@ -23,7 +23,7 @@ export class TodosContainerComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.todoService.getSelectedTodo().subscribe(data=>this.todo=data)
     )
-    this.subscription.add(this.todoService.GetTodos().subscribe(data=>
+        this.subscription.add(this.todoService.GetTodos().subscribe(data=>
       this.todos = data
     ))
   }

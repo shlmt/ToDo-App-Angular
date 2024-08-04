@@ -15,3 +15,10 @@
         right:30px
     }
 }
+.todo-container{
+    ::ng-deep{
+        mat-card{
+            height: 30vh;
+        }
+    }
+}

@@ -33,7 +33,6 @@ export class NewTodoFormComponent implements OnInit {
       }
       this.todoService.addNewTodo(newTodo)
       this.dialog.closeAll()
-      this.todoService.setSelectedTodo(newTodo)
     }
   }
 }

@@ -7,12 +7,18 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 })
 export class TodoService {
 
-  private historyTodos = localStorage.getItem('todos')
-  private todos:ITodo[]= this.historyTodos ? JSON.parse(this.historyTodos) : []
+  private historyTodos = localStorage.getItem('todos')  
+  private initializeTodos(): ITodo[] {
+    let todos: ITodo[] = this.historyTodos ? JSON.parse(this.historyTodos).filter(t => !t.isArchive) : [];
+    if (todos.length > 0) {
+      todos[0].selected = true;
+    }
+    return todos;
+  }
+  private todos: ITodo[] = this.initializeTodos();
   
-  private _todoSubject:BehaviorSubject<ITodo[]> = new BehaviorSubject(this.todos)
-  private selectFirst= ():ITodo=>{this.todos[0].selected = true;return this.todos[0]}
-  private _selectedTodoSubject:BehaviorSubject<ITodo> = new BehaviorSubject(this.todos.length ? this.selectFirst() : null)
+  private _todoSubject: BehaviorSubject<ITodo[]> = new BehaviorSubject(this.todos);
+  private _selectedTodoSubject:BehaviorSubject<ITodo> = new BehaviorSubject(this.todos.length ? this.todos[0] : null)
 
   constructor() { }
 
@@ -30,9 +36,13 @@ export class TodoService {
 
   public addNewTodo(newTodo:ITodo){
     const existingTotos:ITodo[] = this._todoSubject.value
-    existingTotos.push(newTodo)
+    const saveTodo = {...newTodo}
+    saveTodo.selected = false
+    existingTotos.push(saveTodo)
     this._todoSubject.next(existingTotos)
     localStorage.setItem('todos',JSON.stringify(existingTotos))
+    this.todos.forEach(todo=>{if(newTodo.id!==todo.id)todo.selected=false; else todo.selected=true})
+    this.setSelectedTodo(newTodo)
   }
 
   public onEditTodo(attr:string, todoId:string){
@@ -40,7 +50,9 @@ export class TodoService {
     const existingTotos:ITodo[] = this._todoSubject.value
     const index = existingTotos.findIndex((t)=>t.id===todoId)
     existingTotos[index][attr] = true
+    existingTotos[index].selected = false
     localStorage.setItem('todos',JSON.stringify(existingTotos))
+    existingTotos[index].selected = true
   }
 
 }
