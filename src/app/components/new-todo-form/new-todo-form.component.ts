@@ -11,6 +11,7 @@ import {v4 as uuid} from 'uuid'
   styleUrls: ['./new-todo-form.component.scss']
 })
 export class NewTodoFormComponent implements OnInit {
+  public curDate = new Date()
 
   @ViewChild("f") form :NgForm
 

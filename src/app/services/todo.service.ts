@@ -10,6 +10,7 @@ export class TodoService {
   private historyTodos = localStorage.getItem('todos')  
   private initializeTodos(): ITodo[] {
     let todos: ITodo[] = this.historyTodos ? JSON.parse(this.historyTodos).filter(t => !t.isArchive) : [];
+    todos = todos.map(item => ({ ...item, selected: false }))
     if (todos.length > 0) {
       todos[0].selected = true;
     }
