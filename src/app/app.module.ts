@@ -10,6 +10,7 @@ import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { NewTodoFormComponent } from './components/new-todo-form/new-todo-form.component';
 import { TodosContainerComponent } from './components/todos-container/todos-container.component';
+import { TimerDownComponent } from './components/timer-down/timer-down.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TodosContainerComponent } from './components/todos-container/todos-cont
     TodoListComponent,
     TodoComponent,
     NewTodoFormComponent,
-    TodosContainerComponent
+    TodosContainerComponent,
+    TimerDownComponent
   ],
   imports: [
     BrowserModule,
